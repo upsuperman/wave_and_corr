@@ -1,0 +1,22 @@
+﻿生成启动时间为 2017/9/20 10:20:46。
+     1>项目“E:\DSPproject\小波滤波\wave_and_corr\wave_and_corr\wave_and_corr.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\visual studio 2015\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\wave_and_corr.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt corr_0.cpp
+         corr_0.cpp
+     1>e:\dspproject\小波滤波\wave_and_corr\wave_and_corr\corr_0.cpp(93): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+     1>e:\dspproject\小波滤波\wave_and_corr\wave_and_corr\corr_0.cpp(96): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>e:\dspproject\小波滤波\wave_and_corr\wave_and_corr\corr_0.cpp(158): warning C4305: “初始化”: 从“double”到“float”截断
+     1>e:\dspproject\小波滤波\wave_and_corr\wave_and_corr\corr_0.cpp(163): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>e:\dspproject\小波滤波\wave_and_corr\wave_and_corr\corr_0.cpp(168): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+       Link:
+         D:\visual studio 2015\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\DSPproject\小波滤波\wave_and_corr\Debug\wave_and_corr.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\DSPproject\小波滤波\wave_and_corr\Debug\wave_and_corr.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\DSPproject\小波滤波\wave_and_corr\Debug\wave_and_corr.lib" /MACHINE:X86 Debug\corr_0.obj
+         Debug\DSP_sp_convol.obj
+         Debug\main.obj
+         Debug\new_wave.obj
+         Debug\stdafx.obj
+         wave_and_corr.vcxproj -> E:\DSPproject\小波滤波\wave_and_corr\Debug\wave_and_corr.exe
+     1>已完成生成项目“E:\DSPproject\小波滤波\wave_and_corr\wave_and_corr\wave_and_corr.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:01.22
