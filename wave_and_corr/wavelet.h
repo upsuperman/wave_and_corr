@@ -12,4 +12,5 @@ void  Idwt(float *cA, float *cD, int cALength, float *recData);
 float dwt_filter(float *pdatain, int ndatain);
 float wavelet_getThr(float *pDetCoef, int detlen);
 void wthresh(float *pDstCoef, float thr, int high_length);
-
+float select_middle(float *data, int start, int last, int nth);
+void swap(float *data, int i, int j);
