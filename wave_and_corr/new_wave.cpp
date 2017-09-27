@@ -1,4 +1,4 @@
-// new_wave.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// new_wave.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -9,8 +9,8 @@
 #include <iostream>
 #include <algorithm>
 
-#define  FILTERLEN 16  //sym8µÄÂË²¨Æ÷ÏµÊı³¤¶È
-#define  COFE_LENGTH 158 //·Ö½â³öÀ´µÄµÍÆµ¡¢¸ßÆµÏµÊı³¤¶È¶¼Îª158
+#define  FILTERLEN 16  //sym8çš„æ»¤æ³¢å™¨ç³»æ•°é•¿åº¦
+#define  COFE_LENGTH 158 //åˆ†è§£å‡ºæ¥çš„ä½é¢‘ã€é«˜é¢‘ç³»æ•°é•¿åº¦éƒ½ä¸º158
 #define DWT_STAGE	 4
 using namespace std;
 
@@ -28,14 +28,14 @@ static const float sym8highr_q15[] = {
 
 float dwt_filter(float *pdatain, int ndatain)
 {
-	//plowdataout[],phighdataout []µÄ³¤¶È158ÊÇ4²ã·Ö½âÖ®ºó£¬Êä³öµÄ¸öÊı
-	//¶Ô³ÆÑÓÍØºóÃ¿²ãÏµÊı³¤¶È(srcLen+filterlen-1)/2£¬¼´68+41+28+21
+	//plowdataout[],phighdataout []çš„é•¿åº¦158æ˜¯4å±‚åˆ†è§£ä¹‹åï¼Œè¾“å‡ºçš„ä¸ªæ•°
+	//å¯¹ç§°å»¶æ‹“åæ¯å±‚ç³»æ•°é•¿åº¦(srcLen+filterlen-1)/2ï¼Œå³68+41+28+21
 	float *phighdataout = new float[COFE_LENGTH];
 	float *plowdataout = new float[COFE_LENGTH];
 
 	decompose(pdatain, ndatain, plowdataout, phighdataout);
 
-	//µÃµ½µÚÒ»²ã¸ßÆµÏµÊı£¬ÇóµÃãĞÖµthr
+	//å¾—åˆ°ç¬¬ä¸€å±‚é«˜é¢‘ç³»æ•°ï¼Œæ±‚å¾—é˜ˆå€¼thr
 	int Det1len = 68;
 	float *pDet1 = new float[Det1len];
 	for (int i = 0; i < Det1len; ++i)
@@ -43,10 +43,10 @@ float dwt_filter(float *pdatain, int ndatain)
 		pDet1[i] = phighdataout[i];
 	}
 	//float thr = wavelet_getThr(pDet1, Det1len);
-	////¶Ô¸ßÆµÏµÊı½øĞĞãĞÖµÈ¥Ôë
+	////å¯¹é«˜é¢‘ç³»æ•°è¿›è¡Œé˜ˆå€¼å»å™ª
 	//wthresh(phighdataout, thr, COFE_LENGTH);
 
-	//¶ÔÈ¥Ôëºó½á¹û½øĞĞĞ¡²¨Äæ±ä»»
+	//å¯¹å»å™ªåç»“æœè¿›è¡Œå°æ³¢é€†å˜æ¢
 	recompose(pdatain, ndatain, plowdataout, phighdataout);
 
 	delete[]phighdataout;
@@ -61,7 +61,7 @@ float dwt_filter(float *pdatain, int ndatain)
 }
 
 
-//Êä³öH1 H2 H3 H4, L1 L2 L3 L4
+//è¾“å‡ºH1 H2 H3 H4, L1 L2 L3 L4
 float decompose(float *pdatain, int ndatain, float *plowdataout, float *phighdataout)
 {
 	int nlevel, decLen;
@@ -69,9 +69,9 @@ float decompose(float *pdatain, int ndatain, float *plowdataout, float *phighdat
 
 	for (nlevel = 0; nlevel<DWT_STAGE; nlevel++)
 	{
-		decLen = DWT(pdatain, decLen, plowdataout, phighdataout); //µ÷ÓÃDWTº¯Êı£¬·µ»Ø·Ö½âÏµÊıµÄ³¤¶È
-		pdatain = plowdataout;      //µÍÆµ²¿·ÖÔÙ×÷ÎªÊäÈë£¬¼ÌĞø·Ö½â       
-		plowdataout += decLen;      //ÏÂÒ»²ãµÄÊä³ö°¤×ÅÉÏÒ»²ã£¬×îºóµÃµ½Ò»¸öÊı×é£¬Ò²¿ÉÒÔ·Ö¿ªÀ´£¬ÏÈÕâÑù
+		decLen = DWT(pdatain, decLen, plowdataout, phighdataout); //è°ƒç”¨DWTå‡½æ•°ï¼Œè¿”å›åˆ†è§£ç³»æ•°çš„é•¿åº¦
+		pdatain = plowdataout;      //ä½é¢‘éƒ¨åˆ†å†ä½œä¸ºè¾“å…¥ï¼Œç»§ç»­åˆ†è§£       
+		plowdataout += decLen;      //ä¸‹ä¸€å±‚çš„è¾“å‡ºæŒ¨ç€ä¸Šä¸€å±‚ï¼Œæœ€åå¾—åˆ°ä¸€ä¸ªæ•°ç»„ï¼Œä¹Ÿå¯ä»¥åˆ†å¼€æ¥ï¼Œå…ˆè¿™æ ·
 		phighdataout += decLen;
 	}
 	return 1;
@@ -79,23 +79,23 @@ float decompose(float *pdatain, int ndatain, float *plowdataout, float *phighdat
 
 
 /**
- * @brief				¶à²ãÖØ¹¹º¯Êı
- * @param pdataout		Êä³öÊı×é
- * @param ndataout		Êä³ö³¤¶È
- * @param pLowDatain	µÍÆµ·Ö½âÏµÊı
- * @param pHighDatain	¸ßÆµ·Ö½âÏµÊı
- * ¼òµ¥¹ı³Ì£º
- * ÊäÈëH1 H2 H3 H4, L1 L2 L3 L4£¬Ê¹ÓÃÁËH1 H2 H3 H4,  L4
- * L4+H4->L3, L3+H3->L2, L2+H2-> L1 , ×îºóL1+H1 -> out
+ * @brief				å¤šå±‚é‡æ„å‡½æ•°
+ * @param pdataout		è¾“å‡ºæ•°ç»„
+ * @param ndataout		è¾“å‡ºé•¿åº¦
+ * @param pLowDatain	ä½é¢‘åˆ†è§£ç³»æ•°
+ * @param pHighDatain	é«˜é¢‘åˆ†è§£ç³»æ•°
+ * ç®€å•è¿‡ç¨‹ï¼š
+ * è¾“å…¥H1 H2 H3 H4, L1 L2 L3 L4ï¼Œä½¿ç”¨äº†H1 H2 H3 H4,  L4
+ * L4+H4->L3, L3+H3->L2, L2+H2-> L1 , æœ€åL1+H1 -> out
  **/
 float recompose(float *pdataout, int ndataout, float *pLowDatain, float *pHighDatain)
 {
 	int nlevel, cALength;
-	float *pLow = new float[68]; //pLow×î¶àµ½68,µÚÒ»²ã¸öÊı
+	float *pLow = new float[68]; //pLowæœ€å¤šåˆ°68,ç¬¬ä¸€å±‚ä¸ªæ•°
 	float*pHigh = NULL;
-	static int StageBack[] = { 68,41,28,21 };  //¶Ô³ÆÑÓÍØºóÃ¿²ãÏµÊı³¤¶È(srcLen+filterlen-1)/2
+	static int StageBack[] = { 68,41,28,21 };  //å¯¹ç§°å»¶æ‹“åæ¯å±‚ç³»æ•°é•¿åº¦(srcLen+filterlen-1)/2
 
-	//pLow = pLowDatain + StageBack[0] ; //ÏÈ½«pLow¡¢pHigh¶¨Î»µ½×îºóÒ»²ã
+	//pLow = pLowDatain + StageBack[0] ; //å…ˆå°†pLowã€pHighå®šä½åˆ°æœ€åä¸€å±‚
 	int init_plow = COFE_LENGTH - StageBack[3];
 	for (int i = 0; i < StageBack[3]; ++i)
 	{
@@ -108,12 +108,12 @@ float recompose(float *pdataout, int ndataout, float *pLowDatain, float *pHighDa
 		Idwt(pLow, pHigh, cALength, pdataout);
 		if (nlevel > 1)
 		{
-			for (int i = 0; i < StageBack[nlevel - 2]; ++i) //pLow¸üĞÂµ½ÉÏÒ»²ã
+			for (int i = 0; i < StageBack[nlevel - 2]; ++i) //pLowæ›´æ–°åˆ°ä¸Šä¸€å±‚
 			{
 				pLow[i] = pdataout[i];
 			}
-			//pLow = pdataout; //´Ë´¦²»ÄÜÖ±½Ó¸³Ö¸Õë£¬·ñÔò£¬pdataoutÖµ¸Ä±ä£¬ÔòpLowÖµÒ²Á¢¼´¸Ä±ä£¬»áÓ°ÏìºóÃæµÄÏà¹Ø¼ÆËã
-			pHigh -= StageBack[nlevel - 2]; //¸ßÆµÏµÊıÖ±½ÓÍùÉÏ×ßÒ»²ã
+			//pLow = pdataout; //æ­¤å¤„ä¸èƒ½ç›´æ¥èµ‹æŒ‡é’ˆï¼Œå¦åˆ™ï¼Œpdataoutå€¼æ”¹å˜ï¼Œåˆ™pLowå€¼ä¹Ÿç«‹å³æ”¹å˜ï¼Œä¼šå½±å“åé¢çš„ç›¸å…³è®¡ç®—
+			pHigh -= StageBack[nlevel - 2]; //é«˜é¢‘ç³»æ•°ç›´æ¥å¾€ä¸Šèµ°ä¸€å±‚
 		}		
 	}
 	delete[]pLow;
@@ -123,24 +123,24 @@ float recompose(float *pdataout, int ndataout, float *pLowDatain, float *pHighDa
 
 
 /**
-* @brief 			Ğ¡²¨±ä»»Ö®·Ö½â
-* @param pSrcData 	·Ö½âµÄÔ´ĞÅºÅ
-* @param srcLen 	Ô´ĞÅºÅµÄ³¤¶È
-* @param cA 		·Ö½âºóµÄ½üËÆ²¿·ÖĞòÁĞ-µÍÆµ²¿·Ö
-* @param cD 		·Ö½âºóµÄÏ¸½Ú²¿·ÖĞòÁĞ-¸ßÆµ²¿·Ö
+* @brief 			å°æ³¢å˜æ¢ä¹‹åˆ†è§£
+* @param pSrcData 	åˆ†è§£çš„æºä¿¡å·
+* @param srcLen 	æºä¿¡å·çš„é•¿åº¦
+* @param cA 		åˆ†è§£åçš„è¿‘ä¼¼éƒ¨åˆ†åºåˆ—-ä½é¢‘éƒ¨åˆ†
+* @param cD 		åˆ†è§£åçš„ç»†èŠ‚éƒ¨åˆ†åºåˆ—-é«˜é¢‘éƒ¨åˆ†
 */
 
 int  DWT(float *pSrcData, int srcLen, float *cA, float *cD)
 {
-	//½ûÖ¹³öÏÖÕâÖÖÇé¿ö£¬·ñÔòÊı¾İ³ö´í£¨¶Ô³ÆÍØÑÓ³¤¶ÈÎªfilterLen-1£¬Èç¹û´óÓÚÁËsignalLen½«Ô½½ç£©
+	//ç¦æ­¢å‡ºç°è¿™ç§æƒ…å†µï¼Œå¦åˆ™æ•°æ®å‡ºé”™ï¼ˆå¯¹ç§°æ‹“å»¶é•¿åº¦ä¸ºfilterLen-1ï¼Œå¦‚æœå¤§äºäº†signalLenå°†è¶Šç•Œï¼‰
 
-	//if (srcLen < m_dbFilter.filterLen - 1)    //filterLenÎªµÍÍ¨¸ßÍ¨ÂË²¨ÏµÊı³¤¶È
+	//if (srcLen < m_dbFilter.filterLen - 1)    //filterLenä¸ºä½é€šé«˜é€šæ»¤æ³¢ç³»æ•°é•¿åº¦
 	if (srcLen < FILTERLEN - 1)
 	{
-		cout << "´íÎóĞÅÏ¢£ºÂË²¨Æ÷³¤¶È´óÓÚĞÅºÅ!" << endl;
+		cout << "é”™è¯¯ä¿¡æ¯ï¼šæ»¤æ³¢å™¨é•¿åº¦å¤§äºä¿¡å·!" << endl;
 		exit(1);
 	}
-	int exLen = (srcLen + FILTERLEN - 1) / 2;//¶Ô³ÆÍØÑÓºóÏµÊıµÄ³¤¶È
+	int exLen = (srcLen + FILTERLEN - 1) / 2;//å¯¹ç§°æ‹“å»¶åç³»æ•°çš„é•¿åº¦
 	int k = 0;
 	float tmp = 0.0;
 	for (int i = 0; i < exLen; i++)
@@ -151,12 +151,12 @@ int  DWT(float *pSrcData, int srcLen, float *cA, float *cD)
 		for (int j = 0; j < FILTERLEN; j++)
 		{
 			k = 2 * i - j + 1;
-			//ĞÅºÅ±ßÑØ¶Ô³ÆÑÓÍØ
-			if ((k<0) && (k >= -FILTERLEN + 1))//×ó±ßÑØÍØÑÓ
+			//ä¿¡å·è¾¹æ²¿å¯¹ç§°å»¶æ‹“
+			if ((k<0) && (k >= -FILTERLEN + 1))//å·¦è¾¹æ²¿æ‹“å»¶
 				tmp = pSrcData[-k - 1];
-			else if ((k >= 0) && (k <= srcLen - 1))//±£³Ö²»±ä
+			else if ((k >= 0) && (k <= srcLen - 1))//ä¿æŒä¸å˜
 				tmp = pSrcData[k];
-			else if ((k>srcLen - 1) && (k <= (srcLen + FILTERLEN - 2)))//ÓÒ±ßÑØÍØÑÓ
+			else if ((k>srcLen - 1) && (k <= (srcLen + FILTERLEN - 2)))//å³è¾¹æ²¿æ‹“å»¶
 				tmp = pSrcData[2 * srcLen - k - 1];
 			else
 				tmp = 0.0;
@@ -164,16 +164,16 @@ int  DWT(float *pSrcData, int srcLen, float *cA, float *cD)
 			cD[i] += sym8highd_q15[j] * tmp;
 		}
 	}
-	return  exLen;  //·µ»Ø·Ö½âºóÏµÊıµÄ³¤¶È
+	return  exLen;  //è¿”å›åˆ†è§£åç³»æ•°çš„é•¿åº¦
 }
 
 
 /**
-* @brief 			Ğ¡²¨±ä»»Ö®ÖØ¹¹
-* @param cA 		·Ö½âºóµÄ½üËÆ²¿·ÖĞòÁĞ-µÍÆµ²¿·Ö
-* @param cD 		·Ö½âºóµÄÏ¸½Ú²¿·ÖĞòÁĞ-¸ßÆµ²¿·Ö
-* @param cALength 	ÉÏÊö·Ö½âÏµÊıµÄÊı¾İ³¤¶È
-* @param recData 	ÖØ¹¹ºóÊä³öµÄÊı¾İ
+* @brief 			å°æ³¢å˜æ¢ä¹‹é‡æ„
+* @param cA 		åˆ†è§£åçš„è¿‘ä¼¼éƒ¨åˆ†åºåˆ—-ä½é¢‘éƒ¨åˆ†
+* @param cD 		åˆ†è§£åçš„ç»†èŠ‚éƒ¨åˆ†åºåˆ—-é«˜é¢‘éƒ¨åˆ†
+* @param cALength 	ä¸Šè¿°åˆ†è§£ç³»æ•°çš„æ•°æ®é•¿åº¦
+* @param recData 	é‡æ„åè¾“å‡ºçš„æ•°æ®
 */
 void  Idwt(float *cA, float *cD, int cALength, float *recData)
 {
@@ -182,7 +182,7 @@ void  Idwt(float *cA, float *cD, int cALength, float *recData)
 
 	int n, k, p, recLen;
 
-	//ÊäÈë121£¬ËÄ²ã·Ö½â68,41,28,21£¬Å¼ÊıµÄcALengthÖØ¹¹Ê±»áÉÙÒ»¸öÊı
+	//è¾“å…¥121ï¼Œå››å±‚åˆ†è§£68,41,28,21ï¼Œå¶æ•°çš„cALengthé‡æ„æ—¶ä¼šå°‘ä¸€ä¸ªæ•°
 	if(cALength % 2  != 0)
 		 recLen = 2 * cALength - FILTERLEN + 2;  
 	else
@@ -196,7 +196,7 @@ void  Idwt(float *cA, float *cD, int cALength, float *recData)
 		{
 			p = n - 2 * k + FILTERLEN - 2;
 
-			//ĞÅºÅÖØ¹¹
+			//ä¿¡å·é‡æ„
 			if ((p >= 0) && (p<FILTERLEN))
 			{
 				recData[n] += sym8lowr_q15[p] * cA[k] + sym8highr_q15[p] * cD[k];
@@ -207,11 +207,50 @@ void  Idwt(float *cA, float *cD, int cALength, float *recData)
 	}
 }
 
+void swap(float *data, int i, int j)
+{
+	float tmp = data[i];
+	data[i] = data[j];
+	data[j] = tmp;
+}
 
 /**
- * @brief			¸ù¾İÏ¸½ÚÏµÊı£¬¼°ĞÅºÅ³¤¶È¼ÆËããĞÖµ
- * @param  pDetCoef µÚÒ»²ãÏ¸½ÚÏµÊı
- * @param  detlen   Æä³¤¶È
+* @brief 			æ±‚å–ä¸­ä½æ•°
+* @param data 		å¾…æ±‚å–æ•°ç»„
+* @param start 		æ•°ç»„èµ·å§‹ä½ç½®
+* @param last 		æ•°ç»„æœ€åä¸€ä¸ªå…ƒç´ çš„ä¸‹ä¸€ä¸ªä½ç½®
+* @param nth 		å¯»æ‰¾çš„ç¬¬nthä¸ªæ•°ï¼Œå½“nth = (n+1)/2æ—¶ï¼Œå³ä¸ºä¸­ä½æ•°
+* return			ç”±äºæˆ‘ä»¬çš„dataæ˜¯å¶æ•°68ï¼Œæ‰€ä»¥è¿”å›ä¸­é—´ä¸¤ä¸ªæ•°å¹³å‡å€¼
+*/
+float select_middle(float *data, int start, int last, int nth)
+{
+	int i = start + 1, j = last - 1;
+	float pivot = data[start];
+	int k;
+	if (last - start < 2)
+		return data[start];
+	while (i <= j) {
+		if (data[i] < pivot) {
+			++i;
+			continue;
+		}
+		if (data[j] >= pivot) {
+			--j;
+			continue;
+		}
+		swap(data, i, j);
+	}
+	swap(data, i - 1, start);
+	k = i - start;
+	if (k == nth)  return (data[i - 1] + data[i]) / 2;
+	else if (k>nth)  return select_middle(data, start, i, nth);
+	else return select_middle(data, i, last, nth - k);
+}
+
+/**
+ * @brief			æ ¹æ®ç»†èŠ‚ç³»æ•°ï¼ŒåŠä¿¡å·é•¿åº¦è®¡ç®—é˜ˆå€¼
+ * @param  pDetCoef ç¬¬ä¸€å±‚ç»†èŠ‚ç³»æ•°
+ * @param  detlen   å…¶é•¿åº¦
  **/
 float wavelet_getThr(float *pDetCoef, int detlen)
 {
@@ -222,16 +261,9 @@ float wavelet_getThr(float *pDetCoef, int detlen)
 		pDetCoef[i] = abs(pDetCoef[i]);
 	}
 
-	std::sort(pDetCoef, pDetCoef + detlen); //¶ÔÏ¸½ÚÏµÊı½øĞĞÅÅĞò£¬ÇóÈ¡ÖĞÖµ¹ÀËã±ê×¼Æ«²î
-	if (detlen % 2 == 0 && detlen >= 2)
-	{
-		sigma = (pDetCoef[detlen / 2 - 1] + pDetCoef[detlen / 2]) / 2 / 0.6745;
-	}
-
-	else
-		sigma = pDetCoef[detlen / 2] / 0.6745;
-	float N = INPUT_LEN; 		//ÊäÈëĞÅºÅ³¤¶È
-	thr = sigma*sqrt(2.0*log(N)); //ÇóµÃãĞÖµ
+	sigma = select_middle(pDetCoef, 0, detlen, (detlen + 1) / 2) / 0.6745;
+	float N = INPUT_LEN; 		//è¾“å…¥ä¿¡å·é•¿åº¦
+	thr = sigma*sqrt(2.0*log(N)); //æ±‚å¾—é˜ˆå€¼
 
 	return thr;
 
@@ -239,19 +271,19 @@ float wavelet_getThr(float *pDetCoef, int detlen)
 
  
 /**
-* @brief				¸ßÆµÏµÊıãĞÖµÈ¥Ôëº¯Êı
-* @param  pDstCoef		ËùÓĞ¸ßÆµÏµÊı
-* @param  high_length   ¸ßÆµÏµÊı×Ü³¤¶È
+* @brief				é«˜é¢‘ç³»æ•°é˜ˆå€¼å»å™ªå‡½æ•°
+* @param  pDstCoef		æ‰€æœ‰é«˜é¢‘ç³»æ•°
+* @param  high_length   é«˜é¢‘ç³»æ•°æ€»é•¿åº¦
 **/
 void wthresh(float *pDstCoef, float thr, int high_length)
 {
 	for (int i = 0; i < high_length; ++i)
 	{
-		if (abs(pDstCoef[i] < thr)) //Ğ¡ÓÚãĞÖµµÄÖÃÁã
+		if (abs(pDstCoef[i] < thr)) //å°äºé˜ˆå€¼çš„ç½®é›¶
 		{
 			pDstCoef[i] = 0.0;
 		}
-		else 		//´óÓÚãĞÖµÊÕËõ£¬ÈíãĞÖµ´¦Àí
+		else 		//å¤§äºé˜ˆå€¼æ”¶ç¼©ï¼Œè½¯é˜ˆå€¼å¤„ç†
 		{
 			if (pDstCoef[i] < 0.0)
 				pDstCoef[i] = thr - abs(pDstCoef[i]);
